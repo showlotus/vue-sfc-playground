@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import Header from './Header.vue'
-import { Repl, useStore, SFCOptions, useVueImportMap, mergeImportMap } from '@vue/repl'
+import {
+  Repl,
+  useStore,
+  SFCOptions,
+  useVueImportMap,
+  mergeImportMap,
+} from '@vue/repl'
 import Monaco from '@vue/repl/monaco-editor'
 import { ref, watchEffect, onMounted, computed } from 'vue'
 
@@ -57,28 +63,25 @@ const sfcOptions = computed(
         isCustomElement: (tag: string) => tag === 'mjx-container',
       },
     },
-  }),
+  })
 )
 
 const newImportMap = computed(() => {
   return mergeImportMap(importMap.value, {
     imports: {
-      // 'element-plus': 'https://unpkg.com/element-plus@2.5.6/dist/index.full.js',
-      'element-plus': 'https://cdn.jsdelivr.net/npm/element-plus@2.2.3/+esm',
-      '@sxzz/popperjs': 'https://cdn.jsdelivr.net/npm/@sxzz/popperjs-es@2.11.7/+esm',
-      // "@varlet/ui": "https://cdn.jsdelivr.net/npm/@varlet/ui/es/varlet.esm.js",
-      // 'test-module': './xxx.js'
+      'element-plus':
+        'https://cdn.jsdelivr.net/npm/element-plus@2.5.6/dist/index.full.min.mjs',
     },
   })
 })
-console.log(newImportMap)
+
 const store = useStore(
   {
     builtinImportMap: newImportMap,
     vueVersion,
     sfcOptions,
   },
-  hash,
+  hash
 )
 const injectPlugin = `
 import { getCurrentInstance } from 'vue'
@@ -100,30 +103,21 @@ export function appendStyle() {
   })
 }
 
-// await appendStyle()
+await appendStyle()
 `.trim()
 
 const appVue = `
-\<script setup\>
-import { ref, onMounted, defineComponent, h } from 'vue'
-// import { injectElementPlus } from './inject-plugin'
-// injectElementPlus()
-
-
-const ElButton = defineComponent(
-  (props) => {
-    return () => {
-      return h('div', 'el-button')
-    }
-  }
-)
+<script setup\>
+import { ref, onMounted } from 'vue'
+import { injectElementPlus } from './inject-plugin'
+injectElementPlus()
 
 const msg = ref('Hello World!')
 
 onMounted(() => {
   console.log('mounted')
 })
-\</script\>
+</script\>
 
 <template>
   <h1>{{ msg }}</h1>
@@ -135,10 +129,8 @@ onMounted(() => {
 
 store.setFiles({
   'App.vue': appVue,
-  // 'inject-plugin.js': injectPlugin,
+  'inject-plugin.js': injectPlugin,
 })
-
-// https://blog.csdn.net/ZhaoBuDaoFangXia/article/details/125337484
 
 // @ts-expect-error
 globalThis.store = store
@@ -214,8 +206,8 @@ onMounted(() => {
 
 body {
   font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-    'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   --base: #444;
   --nav-height: 50px;
