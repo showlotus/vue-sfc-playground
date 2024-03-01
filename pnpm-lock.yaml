@@ -23,7 +23,7 @@ dependencies:
 
 devDependencies:
   '@types/node':
-    specifier: ^20.11.23
+    specifier: ^20.11.24
     version: 20.11.24
   '@vitejs/plugin-vue':
     specifier: ^5.0.4
