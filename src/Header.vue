@@ -15,7 +15,12 @@ const props = defineProps<{
   prod: boolean
   ssr: boolean
 }>()
-const emit = defineEmits(['toggle-theme', 'toggle-ssr', 'toggle-prod', 'reload-page'])
+const emit = defineEmits([
+  'toggle-theme',
+  'toggle-ssr',
+  'toggle-prod',
+  'reload-page',
+])
 
 const { store } = props
 
@@ -49,7 +54,10 @@ async function copyLink(e: MouseEvent) {
 function toggleDark() {
   const cls = document.documentElement.classList
   cls.toggle('dark')
-  localStorage.setItem('vue-sfc-playground-prefer-dark', String(cls.contains('dark')))
+  localStorage.setItem(
+    'vue-sfc-playground-prefer-dark',
+    String(cls.contains('dark'))
+  )
   emit('toggle-theme', cls.contains('dark'))
 }
 </script>
@@ -61,7 +69,7 @@ function toggleDark() {
       <span>Vue SFC Playground</span>
     </h1>
     <div class="links">
-      <VersionSelect
+      <!-- <VersionSelect
         v-model="store.typescriptVersion"
         pkg="typescript"
         label="TypeScript Version"
@@ -80,7 +88,7 @@ function toggleDark() {
             >Commits History</a
           >
         </li>
-      </VersionSelect>
+      </VersionSelect> -->
       <!-- <button
         title="Toggle development production mode"
         class="toggle-prod"
@@ -107,7 +115,11 @@ function toggleDark() {
       <button title="Reload page" class="reload" @click="$emit('reload-page')">
         <Reload />
       </button>
-      <button title="Download project files" class="download" @click="downloadProject(store)">
+      <button
+        title="Download project files"
+        class="download"
+        @click="downloadProject(store)"
+      >
         <Download />
       </button>
       <a

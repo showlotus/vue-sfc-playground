@@ -9,7 +9,7 @@ export default defineConfig({
       script: {
         fs: {
           fileExists: fs.existsSync,
-          readFile: file => fs.readFileSync(file, 'utf-8'),
+          readFile: (file) => fs.readFileSync(file, 'utf-8'),
         },
       },
     }),
@@ -31,7 +31,10 @@ function copyVuePlugin(): Plugin {
         const filePath = path.resolve(__dirname, file)
         const basename = path.basename(file)
         if (!fs.existsSync(filePath)) {
-          throw new Error(`${basename} not built. ` + `Run "nr build vue -f esm-browser" first.`)
+          throw new Error(
+            `${basename} not built. ` +
+              `Run "nr build vue -f esm-browser" first.`
+          )
         }
         this.emitFile({
           type: 'asset',

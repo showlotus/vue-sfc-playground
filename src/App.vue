@@ -24,13 +24,13 @@ const useSSRMode = ref(false)
 const { productionMode, vueVersion, importMap } = useVueImportMap({
   runtimeDev: import.meta.env.PROD
     ? `${location.origin}/vue.runtime.esm-browser.js`
-    : `${location.origin}/src/vue-dev-proxy`,
+    : `${location.origin}/src/plugins/vue/vue-dev-proxy`,
   runtimeProd: import.meta.env.PROD
     ? `${location.origin}/vue.runtime.esm-browser.prod.js`
-    : `${location.origin}/src/vue-dev-proxy-prod`,
+    : `${location.origin}/src/plugins/vue/vue-dev-proxy-prod`,
   serverRenderer: import.meta.env.PROD
     ? `${location.origin}/server-renderer.esm-browser.js`
-    : `${location.origin}/src/vue-server-renderer-dev-proxy`,
+    : `${location.origin}/src/plugins/vue/vue-server-renderer-dev-proxy`,
 })
 
 let hash = location.hash.slice(1)
@@ -87,8 +87,9 @@ const store = useStore(
 const appVue = `
 <script setup\>
 import { ref, onMounted } from 'vue'
-${ElementPlusPlugin.genImport()}
+import { ${ElementPlusPlugin.initFcName} } from './${ElementPlusPlugin.pluginName}'
 
+${ElementPlusPlugin.initFcName}()
 const msg = ref('Hello World!')
 
 onMounted(() => {
