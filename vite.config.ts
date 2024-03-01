@@ -13,10 +13,13 @@ export default defineConfig({
         },
       },
     }),
-    // copyVuePlugin(),
+    copyVuePlugin(),
   ],
   define: {
     __VUE_PROD_DEVTOOLS__: JSON.stringify(true),
+  },
+  build: {
+    outDir: 'website',
   },
   optimizeDeps: {
     exclude: ['@vue/repl'],
@@ -43,11 +46,11 @@ function copyVuePlugin(): Plugin {
         })
       }
 
-      copyFile(`../vue/dist/vue.esm-browser.js`)
-      copyFile(`../vue/dist/vue.esm-browser.prod.js`)
-      copyFile(`../vue/dist/vue.runtime.esm-browser.js`)
-      copyFile(`../vue/dist/vue.runtime.esm-browser.prod.js`)
-      copyFile(`../server-renderer/dist/server-renderer.esm-browser.js`)
+      copyFile(`./node_modules/vue/dist/vue.esm-browser.js`)
+      copyFile(`./node_modules/vue/dist/vue.esm-browser.prod.js`)
+      copyFile(`./node_modules/vue/dist/vue.runtime.esm-browser.js`)
+      copyFile(`./node_modules/vue/dist/vue.runtime.esm-browser.prod.js`)
+      // copyFile(`../server-renderer/dist/server-renderer.esm-browser.js`)
     },
   }
 }

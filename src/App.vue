@@ -28,9 +28,9 @@ const { productionMode, vueVersion, importMap } = useVueImportMap({
   runtimeProd: import.meta.env.PROD
     ? `${location.origin}/vue.runtime.esm-browser.prod.js`
     : `${location.origin}/src/plugins/vue/vue-dev-proxy-prod`,
-  serverRenderer: import.meta.env.PROD
-    ? `${location.origin}/server-renderer.esm-browser.js`
-    : `${location.origin}/src/plugins/vue/vue-server-renderer-dev-proxy`,
+  // serverRenderer: import.meta.env.PROD
+  //   ? `${location.origin}/server-renderer.esm-browser.js`
+  //   : `${location.origin}/src/plugins/vue/vue-server-renderer-dev-proxy`,
 })
 
 let hash = location.hash.slice(1)

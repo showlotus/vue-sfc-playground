@@ -1,5 +1,5 @@
 export const ElementPlusPlugin = {
-  pluginName: 'element-plus-plugin.js',
+  pluginName: 'element-plus-plugin.ts',
   initFcName: 'initElementPlusPlugin',
   import() {
     return {
