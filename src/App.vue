@@ -9,6 +9,7 @@ import {
 } from '@vue/repl'
 import Monaco from '@vue/repl/monaco-editor'
 import { ref, watchEffect, onMounted, computed } from 'vue'
+import { ElementPlusPlugin } from './plugins/element-plus'
 
 const replRef = ref<InstanceType<typeof Repl>>()
 
@@ -69,8 +70,7 @@ const sfcOptions = computed(
 const newImportMap = computed(() => {
   return mergeImportMap(importMap.value, {
     imports: {
-      'element-plus':
-        'https://cdn.jsdelivr.net/npm/element-plus@2.5.6/dist/index.full.min.mjs',
+      ...ElementPlusPlugin.import(),
     },
   })
 })
@@ -83,34 +83,11 @@ const store = useStore(
   },
   hash
 )
-const injectPlugin = `
-import { getCurrentInstance } from 'vue'
-import ElementPlus from 'element-plus'
-
-export function injectElementPlus() {
-  const instance = getCurrentInstance()
-  instance.appContext.app.use(ElementPlus)
-}
-
-export function appendStyle() {
-  return new Promise((resolve, reject) => {
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = 'https://cdn.jsdelivr.net/npm/element-plus@2.5.6/dist/index.min.css'
-    link.onload = resolve
-    link.onerror = reject
-    document.body.appendChild(link)
-  })
-}
-
-await appendStyle()
-`.trim()
 
 const appVue = `
 <script setup\>
 import { ref, onMounted } from 'vue'
-import { injectElementPlus } from './inject-plugin'
-injectElementPlus()
+${ElementPlusPlugin.genImport()}
 
 const msg = ref('Hello World!')
 
@@ -121,15 +98,15 @@ onMounted(() => {
 
 <template>
   <h1>{{ msg }}</h1>
-  <input v-model="msg" />
-  <el-button>xxx</el-button>
+  <el-input v-model="msg" />
+  <el-button>Btn</el-button>
 </template>
 
 `.trim()
 
 store.setFiles({
   'App.vue': appVue,
-  'inject-plugin.js': injectPlugin,
+  ...ElementPlusPlugin.use(),
 })
 
 // @ts-expect-error
