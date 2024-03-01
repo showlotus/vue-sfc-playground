@@ -23,7 +23,7 @@ const useSSRMode = ref(false)
 
 const { productionMode, vueVersion, importMap } = useVueImportMap({
   runtimeDev: import.meta.env.PROD
-    ? `${location.origin}/vue.runtime.esm-browser.js`
+    ? `${location.origin}/vue.runtime.esm-browser.prod.js`
     : `${location.origin}/src/plugins/vue/vue-dev-proxy`,
   runtimeProd: import.meta.env.PROD
     ? `${location.origin}/vue.runtime.esm-browser.prod.js`
