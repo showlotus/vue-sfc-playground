@@ -114,6 +114,7 @@ onMounted(() => {
 `.trim()
 
 store.setFiles({
+  ...store.getFiles(),
   'App.vue': appVue,
   ...ElementPlusPlugin.use(),
 })
