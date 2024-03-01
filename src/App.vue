@@ -165,7 +165,7 @@ onMounted(() => {
     @keydown.meta.s.prevent
     :ssr="useSSRMode"
     :store="store"
-    :showCompileOutput="true"
+    :showCompileOutput="false"
     :autoResize="true"
     :clearConsole="false"
     :preview-options="{
