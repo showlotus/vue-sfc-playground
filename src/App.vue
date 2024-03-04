@@ -10,6 +10,7 @@ import {
 import Monaco from '@vue/repl/monaco-editor'
 import { ref, watchEffect, onMounted, computed } from 'vue'
 import { ElementPlusPlugin } from './plugins/element-plus'
+import packageConfig from '../package.json'
 
 const replRef = ref<InstanceType<typeof Repl>>()
 
@@ -21,12 +22,14 @@ setVH()
 
 const useSSRMode = ref(false)
 
+const website = `${location.origin}/${packageConfig.name}/website`
+
 const { productionMode, vueVersion, importMap } = useVueImportMap({
   runtimeDev: import.meta.env.PROD
-    ? `${location.origin}/vue.runtime.esm-browser.prod.js`
+    ? `${website}/vue.runtime.esm-browser.prod.js`
     : `${location.origin}/src/plugins/vue/vue-dev-proxy`,
   runtimeProd: import.meta.env.PROD
-    ? `${location.origin}/vue.runtime.esm-browser.prod.js`
+    ? `${website}/vue.runtime.esm-browser.prod.js`
     : `${location.origin}/src/plugins/vue/vue-dev-proxy-prod`,
   // serverRenderer: import.meta.env.PROD
   //   ? `${location.origin}/server-renderer.esm-browser.js`
@@ -84,7 +87,7 @@ const store = useStore(
   hash
 )
 
-const appVue = `
+const appVueCode = `
 <script setup\>
 import { ref, onMounted } from 'vue'
 import { ${ElementPlusPlugin.initFcName} } from './${ElementPlusPlugin.pluginName}'
@@ -113,11 +116,33 @@ onMounted(() => {
 
 `.trim()
 
-store.setFiles({
-  ...store.getFiles(),
-  'App.vue': appVue,
-  ...ElementPlusPlugin.use(),
-})
+const tsconfig = JSON.stringify(
+  {
+    compilerOptions: {
+      allowJs: true,
+      checkJs: true,
+      jsx: 'Preserve',
+      target: 'ESNext',
+      module: 'ESNext',
+      moduleResolution: 'Bundler',
+      allowImportingTsExtensions: true,
+    },
+    vueCompilerOptions: {
+      target: 3.4,
+    },
+  },
+  null,
+  2
+)
+
+store.setFiles(
+  {
+    'App.vue': appVueCode,
+    'tsconfig.json': tsconfig,
+    ...ElementPlusPlugin.use(),
+  },
+  'App.vue'
+)
 
 // @ts-expect-error
 globalThis.store = store
