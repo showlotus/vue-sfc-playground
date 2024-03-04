@@ -10,7 +10,6 @@ import {
 import Monaco from '@vue/repl/monaco-editor'
 import { ref, watchEffect, onMounted, computed } from 'vue'
 import { ElementPlusPlugin } from './plugins/element-plus'
-import packageConfig from '../package.json'
 
 const replRef = ref<InstanceType<typeof Repl>>()
 
@@ -22,7 +21,10 @@ setVH()
 
 const useSSRMode = ref(false)
 
-const website = `${location.origin}/${packageConfig.name}/website`
+let website = location.origin + location.pathname
+if (website.endsWith('/')) {
+  website = website.slice(0, -1)
+}
 
 const { productionMode, vueVersion, importMap } = useVueImportMap({
   runtimeDev: import.meta.env.PROD
