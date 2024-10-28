@@ -137,14 +137,16 @@ const tsconfig = JSON.stringify(
   2
 )
 
-store.setFiles(
-  {
-    'App.vue': appVueCode,
-    'tsconfig.json': tsconfig,
-    ...ElementPlusPlugin.use(),
-  },
-  'App.vue'
-)
+if (!hash) {
+  store.setFiles(
+    {
+      'App.vue': appVueCode,
+      'tsconfig.json': tsconfig,
+      ...ElementPlusPlugin.use(),
+    },
+    'App.vue'
+  )
+}
 
 // @ts-expect-error
 globalThis.store = store
