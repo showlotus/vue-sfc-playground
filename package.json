@@ -1,6 +1,7 @@
 {
   "name": "vue-sfc-playground",
   "private": true,
+  "packageManager": "pnpm@8.10.0",
   "version": "0.0.1",
   "type": "module",
   "scripts": {

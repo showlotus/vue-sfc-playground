@@ -20,7 +20,7 @@ export default defineConfig({
     __VUE_PROD_DEVTOOLS__: JSON.stringify(true),
   },
   build: {
-    outDir: 'website',
+    outDir: 'docs',
   },
   optimizeDeps: {
     exclude: ['@vue/repl'],
